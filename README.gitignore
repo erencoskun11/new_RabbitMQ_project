@@ -1,0 +1,73 @@
+## Ignore Visual Studio temporary files, build results, and user-specific files
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Visual Studio 2019+ cache/options directory
+.vs/
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+.nuget/
+
+# Logs
+*.log
+
+# OS files
+ehthumbs.db
+Thumbs.db
+.DS_Store
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Backup & temp files
+*.bak
+*.cache
+*.tmp
+*.temp
+~$*
+
+# Publish output
+publish/
+wwwroot/
+
+# Node-related (if using frontend)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Others
+*.dbmdl
+*.dbproj.schemaview

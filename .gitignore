@@ -1,0 +1,14 @@
+﻿.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vscode/
+node_modules/
+*.log
+*.nupkg
+.nuget/
+.idea/
+.DS_Store
