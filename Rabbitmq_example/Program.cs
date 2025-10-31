@@ -18,8 +18,13 @@ channel.QueueDeclare(queue: "example_queue",exclusive:false,autoDelete:false);
 
 //send a message to queue
 
-byte[] message =  Encoding.UTF8.GetBytes("hii");
-channel.BasicPublish(exchange:"",routingKey :"example_queue",body:message);
+
+for(int i =0;i<100;i++)
+{
+    byte[] message = Encoding.UTF8.GetBytes("hii" + i);
+    channel.BasicPublish(exchange: "", routingKey: "example_queue", body: message);
+}
+
 
 
 Console.Read();
