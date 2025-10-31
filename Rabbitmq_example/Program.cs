@@ -14,15 +14,17 @@ using IModel channel = connection.CreateModel();
 
 //create queue
 
-channel.QueueDeclare(queue: "example_queue",exclusive:false,autoDelete:false);
+channel.QueueDeclare(queue: "example_queue",exclusive:false,autoDelete:false,durable:true);
 
 //send a message to queue
+IBasicProperties properties = channel.CreateBasicProperties();
+properties.Persistent = true;
 
 
 for(int i =0;i<100;i++)
 {
     byte[] message = Encoding.UTF8.GetBytes("hii" + i);
-    channel.BasicPublish(exchange: "", routingKey: "example_queue", body: message);
+    channel.BasicPublish(exchange: "", routingKey: "example_queue", body: message,basicProperties:properties);
 }
 
 
