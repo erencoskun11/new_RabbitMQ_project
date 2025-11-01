@@ -15,21 +15,35 @@ factory.Uri = new("amqps://xcqfhxlm:PpulfA_CKKshVziwYWdxB-4-C02Ue2XP@codfish.rmq
 using IConnection connection = factory.CreateConnection();
 using IModel channel = connection.CreateModel();
 
-channel.ExchangeDeclare(exchange:"direct_exchange_example",type: ExchangeType.Direct);
+channel.ExchangeDeclare(exchange: "fanout_exchange_example",
+    type:ExchangeType.Fanout
+    );
+Console.WriteLine("enter the queue name");
+string _queueName = Console.ReadLine();
 
-while (true)
+channel.QueueDeclare(
+    queue:_queueName,
+    exclusive : false);
+
+channel.QueueBind(
+    queue: _queueName,
+    exchange: "fanout_exchange_example",
+    routingKey: string.Empty
+
+    );
+
+EventingBasicConsumer consumer = new(channel);
+channel.BasicConsume(
+    queue : _queueName,
+    autoAck : true,
+    consumer: consumer);
+
+consumer.Received += (sender, e) =>
 {
-    Console.Write("message : ");
-    string message = Console.ReadLine();
-    byte[] byteMessage= Encoding.UTF8.GetBytes(message);
+    string message = Encoding.UTF8.GetString(e.Body.Span);
+    Console.WriteLine(message);
+};
 
-    channel.BasicPublish(
-        exchange:"direct_exchange_example",
-        routingKey:"direct_queue_example",
-        body : byteMessage);
-
-
-}
 
 
 
