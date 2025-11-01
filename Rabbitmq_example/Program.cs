@@ -1,4 +1,5 @@
 ﻿using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using System.Text;
 
 //Created connection
@@ -11,22 +12,41 @@ using IConnection connection = factory.CreateConnection();
 connection.CreateModel();
 using IModel channel = connection.CreateModel();
 
+//1. step
+channel.ExchangeDeclare(exchange: "direct_exchange_example", type: ExchangeType.Direct);
 
-//create queue
+//2. step
+string queueName = channel.QueueDeclare().QueueName;
 
-channel.QueueDeclare(queue: "example_queue",exclusive:false,autoDelete:false,durable:true);
+//3. step
+channel.QueueBind(queue:queueName,
+    exchange:"direct_exchange_example",
+    routingKey:"direct_queue_example"
+    );
 
-//send a message to queue
-IBasicProperties properties = channel.CreateBasicProperties();
-properties.Persistent = true;
+EventingBasicConsumer consumer = new(channel);
+channel.BasicConsume(queue: queueName, autoAck:true,consumer: consumer);
 
-
-for(int i =0;i<100;i++)
+consumer.Received += (sender, e) =>
 {
-    byte[] message = Encoding.UTF8.GetBytes("hii" + i);
-    channel.BasicPublish(exchange: "", routingKey: "example_queue", body: message,basicProperties:properties);
-}
+    string message = Encoding.UTF8.GetString(e.Body.Span);
+    Console.WriteLine(message);
+
+};
+
+
 
 
 
 Console.Read();
+
+
+
+
+
+
+
+//first step : exchange name must be same as one in publisher
+
+//second step : 
+
